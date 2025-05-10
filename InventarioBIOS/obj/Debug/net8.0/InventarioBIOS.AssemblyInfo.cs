@@ -23,7 +23,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("InventarioBIOS")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bdbb95a52321a0ac42f56dfde6c35fe508da2964")]
 [assembly: System.Reflection.AssemblyProductAttribute("InventarioBIOS")]
 [assembly: System.Reflection.AssemblyTitleAttribute("InventarioBIOS")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
