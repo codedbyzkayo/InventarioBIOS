@@ -7,60 +7,82 @@ namespace InventarioBIOS.Handler
 
     public class BiosHandler
     {
-        public string consulta;
+        public string? consulta;
 
-        public BiosHandler(string consulta)
+        public BiosHandler(string? consulta)
         {
             this.consulta = consulta;
         }
 
-        public Bios Executa()
+        public Bios? Executa()
         {
-            try
-            {
-                if (consulta == null)
-                {
-                    consulta = "SELECT * FROM Win32_BIOS";
-                }
+            string consultaBios = string.IsNullOrWhiteSpace(consulta)
+                ? "SELECT * FROM Win32_BIOS"
+                : consulta;
 
-                Bios bios = new ManagementObjectSearcher(consulta)
-                                   .Get()
-                                   .Cast<ManagementBaseObject>()
-                                   .Select(x => new Bios
-                                   {
-                                       Nome = x["Name"] as string,
-                                       Descricao = x["Description"] as string,
-                                       Versao = x["Version"] as string,
-                                       Build = x["BuildNumber"] as string,
-                                       Fabricante = x["Manufacturer"] as string,
-                                       Serial = x["SerialNumber"] as string,
-                                       VersaoSmbios = x["SMBIOSBIOSVersion"] as string,
-                                       SMBIOSAssetTag = PegaAssetTag()
-                                   }).FirstOrDefault();
-                return bios;
-            }
-            catch (Exception ex)
+            using var biosSearcher = new ManagementObjectSearcher(consultaBios);
+            using var biosResults = biosSearcher.Get();
+            ManagementBaseObject? biosData = biosResults
+                .Cast<ManagementBaseObject>()
+                .FirstOrDefault();
+
+            if (biosData == null)
             {
-                // Log de exceção
+                return null;
             }
 
-            return null;
+            using var enclosureSearcher = new ManagementObjectSearcher(
+                "SELECT SerialNumber, SMBIOSAssetTag FROM Win32_SystemEnclosure");
+            using var enclosureResults = enclosureSearcher.Get();
+            ManagementBaseObject? enclosureData = enclosureResults
+                .Cast<ManagementBaseObject>()
+                .FirstOrDefault();
+
+            string? serial = PegaValor(biosData, "SerialNumber")
+                ?? PegaValor(enclosureData, "SerialNumber");
+
+            if (serial == null)
+            {
+                using var productSearcher = new ManagementObjectSearcher(
+                    "SELECT IdentifyingNumber FROM Win32_ComputerSystemProduct");
+                using var productResults = productSearcher.Get();
+                ManagementBaseObject? productData = productResults
+                    .Cast<ManagementBaseObject>()
+                    .FirstOrDefault();
+                serial = PegaValor(productData, "IdentifyingNumber");
+            }
+
+            return new Bios
+            {
+                Nome = PegaValor(biosData, "Name"),
+                Descricao = PegaValor(biosData, "Description"),
+                Versao = PegaValor(biosData, "Version"),
+                Build = PegaValor(biosData, "BuildNumber"),
+                Fabricante = PegaValor(biosData, "Manufacturer"),
+                Serial = serial,
+                VersaoSmbios = PegaValor(biosData, "SMBIOSBIOSVersion"),
+                SMBIOSAssetTag = PegaValor(enclosureData, "SMBIOSAssetTag")
+            };
         }
-        private string PegaAssetTag()
+
+        private static string? PegaValor(ManagementBaseObject? objeto, string propriedade)
         {
-            try
+            if (objeto == null)
             {
-                string consultaSystemEnclosure = "SELECT * FROM Win32_SystemEnclosure";
-                ManagementObjectSearcher systemEnclosureSearcher = new ManagementObjectSearcher(consultaSystemEnclosure);
-                ManagementBaseObject systemEnclosureI = systemEnclosureSearcher.Get().Cast<ManagementBaseObject>().FirstOrDefault();
-                return systemEnclosureI["SMBIOSAssetTag"] as string;
-            }
-            catch (Exception ex)
-            {
-                // Log de exceção
+                return null;
             }
 
-            return string.Empty;
+            string? valor = objeto[propriedade]?.ToString()?.Trim();
+            if (string.IsNullOrWhiteSpace(valor)
+                || valor.Equals("None", StringComparison.OrdinalIgnoreCase)
+                || valor.Equals("To be filled by O.E.M.", StringComparison.OrdinalIgnoreCase)
+                || valor.Equals("Default string", StringComparison.OrdinalIgnoreCase)
+                || valor.Equals("System Serial Number", StringComparison.OrdinalIgnoreCase))
+            {
+                return null;
+            }
+
+            return valor;
         }
     }
 }

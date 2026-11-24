@@ -8,5 +8,5 @@ namespace Projects;
 public class InventarioBIOS
 {
     private InventarioBIOS() { }
-    public static string ProjectPath => """C:\Users\User\Desktop\Projetos-CSHARP\InventarioBIOS\InventarioBIOS""";
+    public static string ProjectPath => """D:\Projetos-CSHARP\InventarioBIOS\InventarioBIOS""";
 }

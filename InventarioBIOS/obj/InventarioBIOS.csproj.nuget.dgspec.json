@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\Desktop\\Projetos-CSHARP\\InventarioBIOS\\InventarioBIOS\\InventarioBIOS.csproj": {}
+    "D:\\Projetos-CSHARP\\InventarioBIOS\\InventarioBIOS\\InventarioBIOS.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\Desktop\\Projetos-CSHARP\\InventarioBIOS\\InventarioBIOS\\InventarioBIOS.csproj": {
+    "D:\\Projetos-CSHARP\\InventarioBIOS\\InventarioBIOS\\InventarioBIOS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Desktop\\Projetos-CSHARP\\InventarioBIOS\\InventarioBIOS\\InventarioBIOS.csproj",
+        "projectUniqueName": "D:\\Projetos-CSHARP\\InventarioBIOS\\InventarioBIOS\\InventarioBIOS.csproj",
         "projectName": "InventarioBIOS",
-        "projectPath": "C:\\Users\\User\\Desktop\\Projetos-CSHARP\\InventarioBIOS\\InventarioBIOS\\InventarioBIOS.csproj",
+        "projectPath": "D:\\Projetos-CSHARP\\InventarioBIOS\\InventarioBIOS\\InventarioBIOS.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Desktop\\Projetos-CSHARP\\InventarioBIOS\\InventarioBIOS\\obj\\",
+        "outputPath": "D:\\Projetos-CSHARP\\InventarioBIOS\\InventarioBIOS\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Visual Studio\\Shared\\NuGetPackages"
@@ -43,9 +43,9 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "all"
+          "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -86,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
